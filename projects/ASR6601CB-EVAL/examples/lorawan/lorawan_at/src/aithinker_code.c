@@ -21,6 +21,12 @@ uint8_t g_ledIndex=0;	//LED亮灯序号,0表示开始1～5表示红绿蓝黄白
 static TimerTime_t g_ledStartRtc=0;	//led任务启动时间
 static uint8_t g_IoMap[]={255,8,11,9,4,5,7,6,255,255,255,16,15,14,2,255,255,255};	//IO映射表
 
+void FindCurrentRegionString(void) {
+	// Todo!
+	// find provided string in the enumerate and return it.
+
+}
+
 //--------------------------------- 打印启动信息 ---------------------------------
 void AithinkerPrintInfo(void){
 	uint32_t sn[2];
@@ -30,6 +36,7 @@ void AithinkerPrintInfo(void){
 
 	printf("\r\n################################################\r\n");
 	printf("\r\n");
+	printf("!Region Unlocked\r\n");
 	printf("arch:ASR6601,%02X%02X%02X%02X%02X%02X%02X%02X\r\n",buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6], buf[7]);
 	printf("company:Ai-Thinker|B&T\r\n");
 	printf("sdk_version:release/v1.5.0\r\n");

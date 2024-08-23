@@ -16,6 +16,8 @@
 #include "linkwan_ica_at.h"
 #include "lwan_config.h"  
 #include "linkwan.h"
+#include "Region.h"
+
 
 #define MAX_BEACON_RETRY_TIMES 2
 #define LORA_KEYS_MAGIC_NUM 0xABABBABA 
@@ -533,7 +535,7 @@ void lora_init(LoRaMainCallback_t *callbacks)
 #endif
 }
 
-void lora_fsm( void )
+void lora_fsm( LoRaMacRegion_t region )
 {
     while (1) {
         if (Radio.IrqProcess != NULL) {
@@ -551,31 +553,7 @@ void lora_fsm( void )
                 LoRaMacPrimitives.MacMlmeIndication = mlme_indication;
                 LoRaMacCallbacks.GetBatteryLevel = app_callbacks->BoardGetBatteryLevel;
                 LoRaMacCallbacks.GetTemperatureLevel = NULL;
-#if defined(REGION_AS923)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_AS923);
-#elif defined(REGION_AU915)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_AU915);
-#elif defined(REGION_CN470)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_CN470);
-#elif defined(REGION_CN779)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_CN779);
-#elif defined(REGION_EU433)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_EU433);
-#elif defined(REGION_IN865)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_IN865);
-#elif defined(REGION_EU868)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_EU868);
-#elif defined(REGION_KR920)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_KR920);
-#elif defined(REGION_US915)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_US915);
-#elif defined(REGION_US915_HYBRID)
-                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_US915_HYBRID);
-#elif defined( REGION_CN470A )
-                LoRaMacInitialization( &LoRaMacPrimitives, &LoRaMacCallbacks, LORAMAC_REGION_CN470A);
-#else
-#error "Please define a region in the compiler options."
-#endif
+                LoRaMacInitialization(&LoRaMacPrimitives, &LoRaMacCallbacks, region);
                 init_lwan_configs();
                 if(!lwan_is_key_valid(g_lwan_dev_keys_p->pkey, LORA_KEY_LENGTH))
                     print_dev_info();

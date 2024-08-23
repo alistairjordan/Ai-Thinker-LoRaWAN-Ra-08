@@ -10,7 +10,7 @@ _estack = 0x20004000;    /* end of RAM */
 
 /* Generate a link error if heap and stack don't fit into RAM */
 _HEAP_SIZE = 0x1000;      /* required amount of heap  */
-_STACK_SIZE = 0x1000; /* required amount of stack */
+_STACK_SIZE = 0x800; /* required amount of stack */
 
 /* Specify the memory areas */
 MEMORY

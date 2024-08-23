@@ -1,3 +1,5 @@
+#include "LoRaMac.h"
+#include "RegionCommon.h"
 /*
  * Copyright (C) 2015-2017 Alibaba Group Holding Limited
  */

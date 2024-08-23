@@ -10,4 +10,5 @@ tools/toolchain/share/*
 doc
 
 .vscode
+venv
 

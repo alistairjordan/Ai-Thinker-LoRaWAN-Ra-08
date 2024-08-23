@@ -76,6 +76,7 @@ static int at_cgsn_func(int opt, int argc, char *argv[]);
 static int at_cgbr_func(int opt, int argc, char *argv[]);
 static int at_iloglvl_func(int opt, int argc, char *argv[]);
 static int at_ireboot_func(int opt, int argc, char *argv[]);
+static int at_region_func(int opt, int argc, char *argv[]);
 
 static at_cmd_t g_at_table[] = {
     {LORA_AT_CJOINMODE, at_cjoinmode_func},
@@ -119,6 +120,8 @@ static at_cmd_t g_at_table[] = {
     {LORA_AT_CGBR,  at_cgbr_func},
     {LORA_AT_ILOGLVL,  at_iloglvl_func},
     {LORA_AT_IREBOOT,  at_ireboot_func},
+    /* BALLOON CODE */
+    {LORA_AT_REGION, at_region_func},
 };
 
 #define AT_TABLE_SIZE	(sizeof(g_at_table) / sizeof(at_cmd_t))
@@ -1541,6 +1544,42 @@ static int at_ireboot_func(int opt, int argc, char *argv[])
     }
 
     return ret;
+}
+
+static int at_region_func(int opt, int argc, char *argv[])
+{
+    int ret = LWAN_ERROR;
+        
+    switch(opt) {
+        case QUERY_CMD: {
+            ret = LWAN_SUCCESS;
+            uint16_t ll = 0;
+            lwan_sys_config_get(SYS_CONFIG_LOGLVL, &ll);
+            snprintf((char *)atcmd, ATCMD_SIZE, "\r\n%s:%d\r\nOK\r\n", LORA_AT_ILOGLVL, ll);
+            break;
+        }
+        case DESC_CMD: {
+            ret = LWAN_SUCCESS;
+            snprintf((char *)atcmd, ATCMD_SIZE, "\r\n%s:\"region\"\r\nOK\r\n", LORA_AT_ILOGLVL);
+            break;
+        }
+        case SET_CMD: {
+            if(argc < 1) break;
+         
+            ret = LWAN_SUCCESS;
+            uint16_t ll = strtol((const char *)argv[0], NULL, 0);
+            log_set_level((1<<ll)-1);
+            
+            lwan_sys_config_set(SYS_CONFIG_LOGLVL, &ll);
+            
+            snprintf((char *)atcmd, ATCMD_SIZE, "\r\nOK\r\n");
+            break;
+        }
+        default: break;
+    }
+    
+    return ret;    
+
 }
 
 void linkwan_at_process(void)

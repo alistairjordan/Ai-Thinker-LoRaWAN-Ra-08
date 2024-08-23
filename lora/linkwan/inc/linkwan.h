@@ -8,6 +8,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "log.h"
+#include "LoRaMac.h"
+#include "Region.h"
+
 
 #define LORAWAN_APP_DATA_BUFF_SIZE 242
 #define LINKWAN_APP_DATA_SIZE 51
@@ -66,7 +69,7 @@ typedef enum eMacReq {
 } MacReq_t;
 
 void lora_init(LoRaMainCallback_t *callbacks);
-void lora_fsm( void );
+void lora_fsm( LoRaMacRegion_t region );
 
 bool lwan_is_dev_busy();
 DeviceState_t lwan_dev_state_get( void );

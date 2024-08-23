@@ -68,6 +68,9 @@
 #define LORA_AT_ILOGLVL "+ILOGLVL"  // log level
 #define LORA_AT_IREBOOT "+IREBOOT"
 
+// BALLOON
+#define LORA_AT_REGION "+REGION" // Region Selection
+
 #define AT_PRINTF(...) printf(__VA_ARGS__)
 
 void linkwan_at_init(void);

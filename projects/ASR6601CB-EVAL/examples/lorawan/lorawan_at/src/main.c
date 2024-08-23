@@ -14,6 +14,7 @@
 #include "linkwan_ica_at.h"
 #include "linkwan.h"
 #include "lwan_config.h"
+#include "LoRaMac.h"
 
 #define LORAWAN_APP_PORT 100
 
@@ -156,7 +157,7 @@ int main(void)
     log_set_level((1<<log_level)-1);
 
     lora_init(&LoRaMainCallbacks);
-    lora_fsm();
+    lora_fsm(LORAMAC_REGION_EU868);
 }
 
 #ifdef USE_FULL_ASSERT
